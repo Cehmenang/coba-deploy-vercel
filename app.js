@@ -13,6 +13,6 @@ app.use(Router)
 mongoose.set('strictQuery', false)
 mongoose.connect(process.env.URL, { useNewUrlParser: true, useUnifiedTopology: true }, (err)=>{
     if(err)return console.log(err)
-    console.log(`Database Connected!`)
-    app.listen(process.env.PORT, ()=>console.log(`Server Connected!`))
 })
+
+app.listen(process.env.PORT, ()=>console.log(`Server Connected!`))
