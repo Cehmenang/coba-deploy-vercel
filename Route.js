@@ -8,7 +8,7 @@ async function findUsers(req, res, next){
         const users = await User.find({})
         req.users = users
         next()
-    }catch(e){ console.log(e) }
+    }catch(e){ return res.status(400).send(e) }
 }
 
 router.get('/', findUsers, (req,res)=>{ 
@@ -19,8 +19,8 @@ router.post('/', async(req,res)=>{
     const {username, email, kota} = req.body
     try{
         await User.create({ username, email, kota})
-        res.redirect('/')
-    }catch(e){ console.log(e) }
+        return res.redirect('/')
+    }catch(e){ return res.status(400).send(e) }
 })
 
 router.post('/search', async(req,res)=>{
