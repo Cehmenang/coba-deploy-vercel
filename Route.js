@@ -8,26 +8,19 @@ async function findUsers(req, res, next){
         const users = await User.find({})
         req.users = users
         next()
-    }catch(e){ return res.status(400).send(e) }
+    }catch(e){ return res.status(400).json(e) }
 }
 
 router.get('/', findUsers, (req,res)=>{ 
-    return res.render('index', { title: `Register Page`, users: req.users })
+    return res.status(200).render('index', { title: `Register Page`, users: req.users })
 })
 
 router.post('/', async(req,res)=>{
     const {username, email, kota} = req.body
     try{
         await User.create({ username, email, kota})
-        return res.redirect('/')
-    }catch(e){ return res.status(400).send(e) }
-})
-
-router.post('/search', async(req,res)=>{
-    let payload = req.body.payload.trim()
-    let search = await User.find({username: { $regex : '.*' + payload + '.*' } }).exec()
-    search = search.slice(0,10)
-    res.send(search)
+        return res.status(200).redirect('/')
+    }catch(e){ return res.status(400).json(e) }
 })
 
 export default router
